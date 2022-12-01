@@ -2,22 +2,22 @@ package prompt
 
 // History stores the texts that are entered.
 type History struct {
-	histories []string
+	Histories []string
 	tmp       []string
 	selected  int
 }
 
 // Add to add text in history.
 func (h *History) Add(input string) {
-	h.histories = append(h.histories, input)
+	h.Histories = append(h.Histories, input)
 	h.Clear()
 }
 
 // Clear to clear the history.
 func (h *History) Clear() {
-	h.tmp = make([]string, len(h.histories))
-	for i := range h.histories {
-		h.tmp[i] = h.histories[i]
+	h.tmp = make([]string, len(h.Histories))
+	for i := range h.Histories {
+		h.tmp[i] = h.Histories[i]
 	}
 	h.tmp = append(h.tmp, "")
 	h.selected = len(h.tmp) - 1
@@ -54,7 +54,7 @@ func (h *History) Newer(buf *Buffer) (new *Buffer, changed bool) {
 // NewHistory returns new history object.
 func NewHistory() *History {
 	return &History{
-		histories: []string{},
+		Histories: []string{},
 		tmp:       []string{""},
 		selected:  0,
 	}
