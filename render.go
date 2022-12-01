@@ -83,13 +83,6 @@ func (r *Render) UpdateWinSize(ws *WinSize) {
 	r.col = ws.Col
 }
 
-func (r *Render) renderWindowTooSmall() {
-	r.out.CursorGoTo(0, 0)
-	r.out.EraseScreen()
-	r.out.SetColor(DarkRed, White, false)
-	r.out.WriteStr("Your console window is too small...")
-}
-
 func (r *Render) renderCompletion(buf *Buffer, completions *CompletionManager) {
 	suggestions := completions.GetSuggestions()
 	if len(completions.GetSuggestions()) == 0 {
@@ -179,15 +172,6 @@ func (r *Render) Render(buffer *Buffer, completion *CompletionManager) {
 	line := buffer.Text()
 	prefix := r.getCurrentPrefix()
 	cursor := runewidth.StringWidth(prefix) + runewidth.StringWidth(line)
-
-	// prepare area
-	_, y := r.toPos(cursor)
-
-	h := y + 1 + int(completion.max)
-	if h > int(r.row) || completionMargin > int(r.col) {
-		r.renderWindowTooSmall()
-		return
-	}
 
 	// Rendering
 	r.out.HideCursor()
